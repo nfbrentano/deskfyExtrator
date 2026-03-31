@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://nfbrentano.github.io/deskfyExtrator",
   "scripts": {
-    "start": "node server.js",
+    "deploy": "gh-pages -d .",
     "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,10 +13,7 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
-    "axios": "^1.14.0",
-    "cors": "^2.8.6",
-    "csv-writer": "^1.6.0",
-    "express": "^5.2.1"
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
