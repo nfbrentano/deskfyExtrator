@@ -38,3 +38,7 @@ Para extrair suas tarefas da plataforma Deskfy, siga os passos abaixo:
 
 ---
 *Este projeto e seu autor são independentes e não têm afiliação oficial com a plataforma Deskfy.io.*
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](LICENSE).

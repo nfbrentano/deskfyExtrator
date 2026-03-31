@@ -10,8 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Natanael Brentano",
+  "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
     "gh-pages": "^6.3.0"
