@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deskfy Extrator CSV</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <div class="container glass-panel">
+        <header>
+            <div class="icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1>Deskfy <span>Extrator</span></h1>
+            <p>Exporte todas as solicitações (Tarefas) rapidamente para um arquivo CSV.</p>
+        </header>
+
+        <form id="extract-form">
+            <div class="input-group">
+                <label for="apiKey">Chave da API Deskfy (x-api-key) *</label>
+                <input type="password" id="apiKey" placeholder="Cole sua chave aqui" required>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label for="initialDate">Data Inicial (Opcional)</label>
+                    <input type="date" id="initialDate" title="Para filtrar de uma data de cadastro">
+                </div>
+                
+                <div class="input-group">
+                    <label for="endDate">Data Final (Opcional)</label>
+                    <input type="date" id="endDate" title="Até uma data de cadastro">
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" id="submitBtn">
+                    <span>Extrair CSV</span>
+                    <svg class="spinner" id="spinner" viewBox="0 0 50 50" style="display: none;">
+                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="statusMessage" class="status-message"></div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
