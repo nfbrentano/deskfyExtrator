@@ -1,4 +1,15 @@
 // script.js
+window.addEventListener('DOMContentLoaded', () => {
+    const statusMsg = document.getElementById('statusMessage');
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        console.log("Deskfy Extrator: Extensão conectada.");
+    } else {
+        statusMsg.textContent = 'Aviso: Extensão não detectada. Instale a extensão para evitar erros de CORS.';
+        statusMsg.classList.add('error');
+        statusMsg.style.display = 'block';
+    }
+});
+
 document.getElementById('extract-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -27,31 +38,63 @@ document.getElementById('extract-form').addEventListener('submit', async (e) => 
             url += '?' + params.join('&');
         }
         
-        // Fazer requisição diretamente para a API do Deskfy
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: { 
-                'x-api-key': apiKey,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        
-        if (!response.ok) {
-            let errorMsg = `Erro na API: ${response.status} - ${response.statusText}`;
-            try {
-                const errorData = await response.json();
-                if (errorData.message) errorMsg = errorData.message;
-            } catch(ex) {}
+        // Função auxiliar para fazer a requisição via Extensão (Bypass CORS) ou Direta
+        const fetchDeskfy = async (url, apiKey) => {
+            // 1. Tentar diretamente via chrome.runtime (Contexto de POPUP da Extensão)
+            if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage && chrome.runtime.id) {
+                return new Promise((resolve, reject) => {
+                    chrome.runtime.sendMessage({
+                        action: 'fetchDeskfyData',
+                        payload: { url, apiKey }
+                    }, (response) => {
+                        if (chrome.runtime.lastError) {
+                            reject(new Error("Erro de conexão com a extensão: " + chrome.runtime.lastError.message));
+                            return;
+                        }
+                        if (response && response.success) {
+                            resolve(response.data);
+                        } else {
+                            reject(new Error(response ? response.error : "Erro desconhecido na extensão."));
+                        }
+                    });
+                });
+            } 
             
-            if (response.status === 401 || response.status === 403) {
-                throw new Error("API Key inválida ou sem permissão.");
-            } else {
-                throw new Error("A API Deskfy bloqueou a requisição (" + errorMsg + ").");
-            }
-        }
-        
-        const data = await response.json();
+            // 2. Tentar via Ponte de Mensagens (Contexto de GitHub Pages + Content Script)
+            return new Promise((resolve, reject) => {
+                const requestId = Math.random().toString(36).substring(7);
+                
+                const responseHandler = (event) => {
+                    if (event.data.type === 'DESKFY_API_RESPONSE' && event.data.requestId === requestId) {
+                        window.removeEventListener('message', responseHandler);
+                        const { response } = event.data;
+                        if (response && response.success) {
+                            resolve(response.data);
+                        } else {
+                            reject(new Error(response ? response.error : "A extensão não respondeu corretamente. Verifique se ela está instalada."));
+                        }
+                    }
+                };
+
+                window.addEventListener('message', responseHandler);
+
+                // Enviar solicitação para o Content Script
+                window.postMessage({
+                    type: 'DESKFY_API_REQUEST',
+                    requestId,
+                    payload: { url, apiKey }
+                }, '*');
+
+                // Timeout para caso a extensão não esteja instalada
+                setTimeout(() => {
+                    window.removeEventListener('message', responseHandler);
+                    // Se não resolveu ainda, provavelmente não tem extensão
+                    reject(new Error("A extensão 'Deskfy Extrator' não foi detectada. Por favor, instale-a para usar no GitHub Pages e evitar erros de CORS."));
+                }, 5000);
+            });
+        };
+
+        const data = await fetchDeskfy(url, apiKey);
         
         if (!Array.isArray(data) || data.length === 0) {
             throw new Error('Nenhuma solicitação encontrada ou a API bloqueou a resposta.');
