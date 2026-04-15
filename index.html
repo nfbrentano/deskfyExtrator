@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deskfy Extrator CSV</title>
+    <title>Deskfy Extrator - Landing Page & Privacidade</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { overflow-y: auto; align-items: flex-start; padding-top: 60px; }
+        .container { max-width: 800px; animation: none; margin-bottom: 60px; }
+        .content-section { margin-top: 40px; text-align: left; }
+        .content-section h2 { font-size: 20px; color: var(--primary); margin-bottom: 16px; border-bottom: 1px solid var(--panel-border); padding-bottom: 8px; }
+        .content-section p, .content-section li { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+        .content-section ul { padding-left: 20px; }
+        .license-box { background: rgba(0, 0, 0, 0.2); padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; margin-top: 20px; }
+        .cta-button { display: inline-flex; margin-top: 20px; text-decoration: none; font-weight: 600; }
+    </style>
 </head>
 <body>
     <div class="blob blob-1"></div>
@@ -20,40 +30,45 @@
                 </svg>
             </div>
             <h1>Deskfy <span>Extrator</span></h1>
-            <p>Exporte todas as solicitações (Tarefas) rapidamente para um arquivo CSV.</p>
+            <p>O jeito mais rápido e seguro de exportar suas tarefas para CSV.</p>
+            <a href="https://chrome.google.com/webstore" target="_blank" class="cta-button" style="background: var(--primary); padding: 12px 24px; border-radius: 8px; color: white;">Instalar no Chrome (Em breve)</a>
         </header>
 
-        <form id="extract-form">
-            <div class="input-group">
-                <label for="apiKey">Chave da API Deskfy (x-api-key) *</label>
-                <input type="password" id="apiKey" placeholder="Cole sua chave aqui" required>
-            </div>
+        <section class="content-section">
+            <h2>Como Usar</h2>
+            <ol>
+                <li><strong>Instale a Extensão</strong>: Faça o download na Chrome Web Store.</li>
+                <li><strong>Acesse o Deskfy</strong>: Faça login na sua conta Deskfy normalmente.</li>
+                <li><strong>Abra o Extrator</strong>: Clique no ícone da extensão no seu navegador.</li>
+                <li><strong>Configurações</strong>: Insira sua <code>x-api-key</code> (você a encontra nas configurações de perfil do Deskfy).</li>
+                <li><strong>Extraia</strong>: Defina as datas (opcional) e clique em "Extrair CSV".</li>
+            </ol>
+        </section>
 
-            <div class="row">
-                <div class="input-group">
-                    <label for="initialDate">Data Inicial (Opcional)</label>
-                    <input type="date" id="initialDate" title="Para filtrar de uma data de cadastro">
-                </div>
-                
-                <div class="input-group">
-                    <label for="endDate">Data Final (Opcional)</label>
-                    <input type="date" id="endDate" title="Até uma data de cadastro">
-                </div>
-            </div>
+        <section class="content-section">
+            <h2>Política de Privacidade</h2>
+            <p>Sua privacidade é nossa prioridade. O Deskfy Extrator foi desenhado com foco total na segurança:</p>
+            <ul>
+                <li><strong>Processamento Local</strong>: Todas as requisições à API e o processamento dos dados ocorrem diretamente no seu navegador.</li>
+                <li><strong>Sem Armazenamento Externo</strong>: Nós não coletamos, armazenamos ou compartilhamos suas chaves de API, credenciais ou dados das tarefas.</li>
+                <li><strong>Transparência</strong>: A extensão serve apenas como uma ponte (proxy) para contornar restrições de CORS e permitir o download do CSV.</li>
+                <li><strong>Segurança</strong>: Não há servidores intermediários. Seus dados vão do Deskfy direto para o seu computador.</li>
+            </ul>
+        </section>
 
-            <div class="actions">
-                <button type="submit" id="submitBtn">
-                    <span>Extrair CSV</span>
-                    <svg class="spinner" id="spinner" viewBox="0 0 50 50" style="display: none;">
-                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                    </svg>
-                </button>
+        <section class="content-section">
+            <h2>Licença e Open Source</h2>
+            <p>Este projeto é Open Source e distribuído sob a Licença MIT. Você pode auditar o código completo no Repositório do GitHub.</p>
+            <div class="license-box">
+                MIT License <br><br>
+                Copyright (c) 2026 Natanael Brentano <br><br>
+                Permission is hereby granted, free of charge, to any person obtaining a copy...
             </div>
+        </section>
 
-            <div id="statusMessage" class="status-message"></div>
-        </form>
+        <footer style="margin-top: 40px; text-align: center; font-size: 12px; color: var(--text-secondary);">
+            &copy; 2026 Natanael Brentano. Desenvolvido para agilizar fluxos de trabalho.
+        </footer>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
