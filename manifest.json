@@ -3,7 +3,7 @@
   "name": "Deskfy Extrator",
   "version": "1.2",
   "description": "Extrai solicitações do Deskfy para CSV sem erros de CORS. Funciona em popup e no GitHub Pages.",
-  "permissions": ["scripting"],
+  "permissions": [],
   "host_permissions": [
     "https://service-api.deskfy.io/*"
   ],
